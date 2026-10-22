@@ -750,6 +750,53 @@ button:disabled {
     padding: var(--sp-2) var(--sp-3);
     font-size: var(--text-xs);
   }
+
+  /* Top bar: tabs + 5 icon buttons don't fit on one ~335px row. Put the
+     icons on their own row above, right-aligned, and let the tabs share
+     the bottom row so their active underline still sits on the border. */
+  .top-bar {
+    flex-wrap: wrap;
+    row-gap: var(--sp-2);
+  }
+
+  .modal-buttons {
+    order: -1;
+    width: 100%;
+    justify-content: flex-end;
+    gap: var(--sp-1);
+    padding-bottom: 0;
+  }
+
+  .tab-buttons {
+    width: 100%;
+  }
+
+  .tab-buttons button {
+    flex: 1;
+    padding: var(--sp-3) var(--sp-2);
+    font-size: var(--text-sm);
+  }
+
+  /* The generic `button` rule above is for the big action buttons —
+     icon buttons must stay compact. */
+  .icon-btn {
+    min-width: 0;
+    padding: var(--sp-2);
+  }
+
+  .lang-btn {
+    padding: var(--sp-2);
+  }
+
+  /* Icon only on phones; the separator spacing is tightened to match. */
+  .quit-btn {
+    margin-left: var(--sp-1);
+    padding-left: var(--sp-2);
+  }
+
+  .quit-btn span {
+    display: none;
+  }
 }
 
 /* ── Always on Top active state ──────────────────────────────── */
