@@ -541,22 +541,8 @@
     enterLoading();
   }
 
-  // Narrow viewports start docked instead: the 800x1100 expand target
-  // reads as cramped on a phone-width screen and forces a long scroll
-  // before Features. Nothing here loads the iframe — there is no visitor
-  // interaction yet, so the same lazy-load-on-demand behavior expand()
-  // already provides for a manual Pin tap applies here for free.
-  function initDefaultDocked() {
-    isExpanded = false;
-    setPinButtonState(false);
-    demo.classList.add("is-docked");
-    setStageMode("idle");
-    applyRect(dockRect());
-  }
-
-  if (window.innerWidth < MOBILE_BREAKPOINT) {
-    initDefaultDocked();
-  } else {
-    initDefaultExpanded();
-  }
+  // Every viewport starts expanded, phones included — on narrow screens
+  // expandRect() already fits the box to the stage width and
+  // expandedStageHeight() caps it to the viewport height.
+  initDefaultExpanded();
 })();
