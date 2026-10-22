@@ -1,4 +1,4 @@
-const CACHE_NAME = "interval-timer-pwa-1788468193394";
+const CACHE_NAME = "interval-timer-pwa-1792709252775";
 
 self.addEventListener("install", () => {
   self.skipWaiting();
