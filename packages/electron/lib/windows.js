@@ -239,7 +239,7 @@ export function createTray() {
     : nativeImage.createEmpty();
 
   tray = new Tray(icon);
-  tray.setToolTip("Timer App");
+  tray.setToolTip("Interval Timer");
 
   const contextMenu = Menu.buildFromTemplate([
     {

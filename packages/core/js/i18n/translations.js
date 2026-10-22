@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    "app.title": "Timer App",
+    "app.title": "Interval Timer",
     "tabs.interval": "Interval Timer",
     "tabs.timer": "Timer",
     "topbar.settingsBtn.ariaLabel": "Open settings",
@@ -161,7 +161,7 @@ export const translations = {
     "settings.updates.error": "Couldn't check for updates",
   },
   tr: {
-    "app.title": "Zamanlayıcı Uygulaması",
+    "app.title": "Interval Timer",
     "tabs.interval": "Aralık Sayacı",
     "tabs.timer": "Sayaç",
     "topbar.settingsBtn.ariaLabel": "Ayarları aç",
