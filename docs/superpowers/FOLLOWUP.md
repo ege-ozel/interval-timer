@@ -2,61 +2,69 @@
 
 You're picking up work on the `interval-timer` repo (Electron desktop app
 + installable PWA; GitHub: `ege-ozel/interval-timer`, formerly
-`psymore/interval-timer`). Updated by Claude whenever the user asks for a
-followup summary, or at a natural session-end point. Read this file fully
-whenever the user types `FOLLOWUP` — whether that's later in the same
-session or the very first message of a brand-new one with no other context
-loaded. If this is a fresh session, read `CLAUDE.md` first for the
-architecture, then come back here for current status. Either way, pick up
-exactly where this left off rather than asking what to do or re-deriving
-context from scratch — continue with whatever "Likely next steps" below
-says is next, asking which one only if more than one applies and it isn't
-obvious.
+`psymore/interval-timer`). Updated whenever the user asks for a followup
+summary, or at a natural session-end point. Read this file fully whenever
+the user types `FOLLOWUP`, whether that's later in the same session or the
+very first message of a brand-new one with no other context loaded. If this
+is a fresh session, read `CLAUDE.md` first for the architecture, then come
+back here for current status. Either way, pick up exactly where this left
+off rather than asking what to do or re-deriving context from scratch:
+continue with whatever "Likely next steps" below says is next, asking which
+one only if more than one applies and it isn't obvious.
 
 **Last updated:** 2026-10-23
 
 ## Summary
 
-This session (2026-10-23) shipped **v1.1.1**:
+**v1.1.3 is released** (marked latest, `Interval.Timer.Setup.1.1.3.exe`)
+and installed on the user's machine. Everything is merged and pushed;
+`main` matches `origin/main`. Since v1.1.2:
 
-- Mobile top bar fix in `packages/core/css/styles.css` (inside the
-  `max-width: 440px` block): icons on their own row above full-width tabs,
-  icon buttons no longer inflated by the generic `button { min-width: 70px }`
-  rule, Quit is icon-only on phones. Synced to `docs/app` and `docs/pwa`.
-- Landing-page demo (`docs/assets/mini-demo.js`) now opens expanded (full
-  app view) on every viewport, phones included; mobile caption updated in
-  EN/TR (`docs/assets/i18n.js`, `docs/index.html`).
-- Version bumped to 1.1.1 in all package.json files, tag `v1.1.1` pushed,
-  GitHub Release published with `Interval.Timer.Setup.1.1.1.exe` (marked
-  latest), and installed on the user's machine.
-- Then shipped **v1.1.2** the same way: app title renamed from "Timer
-  App" to "Interval Timer" (heading, `<title>`, tray tooltip, EN + TR);
-  released, marked latest, and installed here.
-- Local `origin` remote repointed to `https://github.com/ege-ozel/interval-timer.git`.
-  The live site is at `https://ege-ozel.github.io/interval-timer/`.
+- **Electron 41 → 44.9.3** plus `npm audit fix` and knip 5 → 6 (knip.json
+  rewritten for per-workspace config). Dependabot: 0 open alerts. 45.0.0
+  was skipped as too new. Electron 42+ downloads its binary on first run,
+  so `npm install`/`npm version` no longer leave it missing.
+- **Alarm file picker** starts in the folder of the last chosen alarm
+  (Electron 43 made dialogs default to Downloads).
+- **Top bar**: gear icon (Iconify `material-symbols:settings-rounded`,
+  `#FF7A1A`, viewBox cropped) for a general Settings dialog that now only
+  holds the update check, hidden in PWA/demo/Store builds. Alarm lengths
+  moved into the Alarm dialog and apply immediately. Tooltips on all
+  icon buttons (EN/TR). Below 620px the title and icons share one row
+  (`.app-header` grid, `display: contents` above that); `.icon-btn`
+  min-width is 44px (it used to inherit 80px and overflowed the bar).
+  Checked 900–320px with no overflow.
+- **Repo rename cleanup**: landing page links, downloads badge, giscus
+  `data-repo` (giscus works again under the new name; same repo and
+  category IDs) and the app's update-check `REPO` all point at
+  `ege-ozel/interval-timer`. `appId` stays `com.psymore.intervaltimer` on
+  purpose.
+- **README rewritten**: header with badges and buttons, demo GIF
+  (main + mini window), screenshots in `docs/media/`, alarm-source diagram,
+  current limits, collapsible build/Spotify/structure sections.
+- **Branches**: all merged local and remote branches deleted. Only
+  `origin/feature/alarm-upload-folder` remains (5 pre-monorepo commits not in
+  main: an alarm-folder picker).
 
 ## Open items
 
-- **Landing-page demo icon problem on a real phone** — the user's phone
-  screenshot showed the *old* overflowing top bar (pre-v1.1.1, likely
-  cached), so this is probably already fixed. Confirm with the user after
-  a refresh on their phone.
-- **Old `psymore` links** — README, `docs/index.html` (links, downloads
-  badge, giscus `data-repo`) and `packages/electron/lib/updateChecker.js`
-  (`REPO`) still say `psymore/interval-timer`. github.com redirects, but
-  `psymore.github.io` likely does not. Do NOT change `appId`
-  (`com.psymore.intervaltimer`) — it would break existing installs.
-- **`npm version` / npm install wipes the Electron binary** — npm's
-  install-script allowlist blocks `electron`'s postinstall; restore with
-  `node node_modules/electron/install.js` (with `ELECTRON_RUN_AS_NODE` unset).
-- `.claude/launch.json` (local static-server previews for `docs/` and
-  `packages/core`) is untracked on purpose.
-- Older items still open: mobile app brainstorm, stale `worktree-agent-*`
-  branches, Dependabot alert confirmation (now possible — `gh` is installed
-  and authenticated).
+- **Old commit trailers**: commits `88d9b23`, `d845357` and `86c8a7c` on
+  `main` still carry a `Co-Authored-By: Claude` trailer. Removing them means
+  rewriting `main` and force-pushing; the user has not decided yet. Rule
+  from now on: no AI mentions or trailers in commits, README or release
+  notes.
+- **`feature/alarm-upload-folder`**: port the folder picker onto the
+  monorepo or delete the branch; the user's call.
+- **Landing footer** says "MIT-style personal project" while package.json
+  declares ISC and there is no LICENSE file.
+- `.claude/launch.json` (local static-server previews: `docs` on 5180,
+  `packages/core` on 5181) is untracked on purpose. `packages/core` served
+  alone crashes at startup (no `electronAPI`); test UI through the `docs`
+  server (`/app`, `/pwa`) or Electron instead.
+- Ideas not started: code signing, auto-install updates (electron-updater),
+  CI release workflow, macOS/Linux builds, unit tests for `js/logic/`.
 
 ## Likely next steps
 
-- Fix the demo icon issue once the screenshot arrives (own branch — landing
-  page work never goes on an app feature branch).
-- Update the `psymore` links to `ege-ozel` on a new branch.
+- Ask whether to strip the old commit trailers (force-push to `main`).
+- Decide the fate of `feature/alarm-upload-folder`.
