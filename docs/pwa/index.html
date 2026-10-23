@@ -23,6 +23,7 @@
 
 <body>
 
+    <header class="app-header">
     <h1 class="gradient-title" data-i18n="app.title">Interval Timer</h1>
 
     <div class="top-bar">
@@ -31,31 +32,35 @@
             <button type="button" data-tab="timer" data-i18n="tabs.timer">Timer</button>
         </div>
         <div class="modal-buttons">
-            <button type="button" id="settingsIcon" class="icon-btn" aria-label="Open settings"
-                data-i18n-aria-label="topbar.settingsBtn.ariaLabel">
-                <img src="assets/icons/adjust.png" alt="" class="icon-img" />
+            <button type="button" id="settingsIcon" class="icon-btn" aria-label="Open settings" title="Open settings"
+                data-i18n-aria-label="topbar.settingsBtn.ariaLabel" data-i18n-title="topbar.settingsBtn.ariaLabel">
+                <img src="assets/icons/settings.svg" alt="" class="icon-img" />
             </button>
-            <button type="button" id="alarmFolderBtn" class="icon-btn" aria-label="Choose alarm sound"
-                data-i18n-aria-label="topbar.alarmBtn.ariaLabel">
+            <button type="button" id="alarmFolderBtn" class="icon-btn" aria-label="Alarm sound and length"
+                title="Alarm sound and length" data-i18n-aria-label="topbar.alarmBtn.ariaLabel"
+                data-i18n-title="topbar.alarmBtn.ariaLabel">
                 <img src="assets/icons/alarm-clock.png" alt="" class="icon-img" />
             </button>
             <button type="button" id="alwaysOnTopBtn" class="icon-btn" aria-label="Pin window on top"
-                aria-pressed="false">
+                title="Pin window on top" aria-pressed="false">
                 <img src="assets/icons/pinned.png" alt="" class="icon-img" />
             </button>
             <button type="button" id="languageBtn" class="icon-btn lang-btn no-hover-lift" aria-label="Switch language"
-                data-i18n-aria-label="topbar.languageBtn.ariaLabel">
+                title="Switch language" data-i18n-aria-label="topbar.languageBtn.ariaLabel"
+                data-i18n-title="topbar.languageBtn.ariaLabel">
                 <img src="assets/icons/globe.png" alt="" class="icon-img" />
                 <span id="languageBtnLabel">EN</span>
             </button>
             <button type="button" id="quitAppBtn" class="icon-btn quit-btn" aria-label="Quit application"
-                data-i18n-aria-label="topbar.quitBtn.ariaLabel">
+                title="Quit application" data-i18n-aria-label="topbar.quitBtn.ariaLabel"
+                data-i18n-title="topbar.quitBtn.ariaLabel">
                 <img src="assets/icons/power.png" alt="" class="icon-img" />
                 <span data-i18n="topbar.quitBtn.label">Quit</span>
             </button>
 
         </div>
     </div>
+    </header>
 
     <div id="updateBanner" class="update-banner hidden" role="status" aria-live="polite"></div>
 
@@ -64,23 +69,7 @@
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
         <div class="modal-content">
-            <h2 id="settingsTitle" data-i18n="settings.title">Alarm Settings</h2>
-            <div id="timerSettings" class="settings-group hidden">
-                <label for="timerAlarmLength">
-                    <span data-i18n="settings.timerAlarmLength">Alarm Length (seconds)</span>
-                    <input type="number" id="timerAlarmLength" min="1" value="5" />
-                </label>
-            </div>
-            <div id="intervalSettings" class="settings-group hidden">
-                <label for="workAlarmLength">
-                    <span data-i18n="settings.workAlarmLength">Work Alarm (seconds)</span>
-                    <input type="number" id="workAlarmLength" min="1" value="5" />
-                </label>
-                <label for="breakAlarmLength">
-                    <span data-i18n="settings.breakAlarmLength">Break Alarm (seconds)</span>
-                    <input type="number" id="breakAlarmLength" min="1" value="5" />
-                </label>
-            </div>
+            <h2 id="settingsTitle" data-i18n="settings.title">Settings</h2>
             <div class="settings-group update-check-row">
                 <span data-i18n="settings.updates.label">Updates</span>
                 <button type="button" id="checkUpdatesBtn" data-i18n="settings.updates.checkBtn">Check for
@@ -88,7 +77,6 @@
             </div>
             <p id="updateCheckStatus" class="update-check-status" aria-live="polite"></p>
             <div class="button-group">
-                <button type="button" id="saveSettingsBtn" data-i18n="settings.save">Save</button>
                 <button type="button" id="closeSettingsBtn" data-i18n="settings.close">Close</button>
             </div>
         </div>
@@ -97,7 +85,7 @@
     <!-- Alarm File Modal -->
     <div id="alarmFolderModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="alarmTitle">
         <div class="modal-content alarm-modal-content">
-            <h2 id="alarmTitle" data-i18n="alarm.title">Alarm Sound</h2>
+            <h2 id="alarmTitle" data-i18n="alarm.title">Alarm</h2>
 
             <!-- Mevcut kaynak -->
             <div class="alarm-current">
@@ -186,6 +174,27 @@
                     </div>
                 </div>
 
+            </div>
+
+            <!-- Alarm length (seconds) — fields shown for the active tab -->
+            <div class="alarm-length">
+                <p class="alarm-section-label" data-i18n="alarm.lengthLabel">Alarm length</p>
+                <div id="timerSettings" class="settings-group hidden">
+                    <label for="timerAlarmLength">
+                        <span data-i18n="settings.timerAlarmLength">Alarm Length (seconds)</span>
+                        <input type="number" id="timerAlarmLength" min="1" value="5" />
+                    </label>
+                </div>
+                <div id="intervalSettings" class="settings-group hidden">
+                    <label for="workAlarmLength">
+                        <span data-i18n="settings.workAlarmLength">Work Alarm (seconds)</span>
+                        <input type="number" id="workAlarmLength" min="1" value="5" />
+                    </label>
+                    <label for="breakAlarmLength">
+                        <span data-i18n="settings.breakAlarmLength">Break Alarm (seconds)</span>
+                        <input type="number" id="breakAlarmLength" min="1" value="5" />
+                    </label>
+                </div>
             </div>
 
             <!-- Preview -->
