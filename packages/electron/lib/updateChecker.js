@@ -5,7 +5,7 @@ import { getMainWindow } from "./windows.js";
 
 const log = createLogger("update-checker");
 
-const REPO = "psymore/interval-timer";
+const REPO = "ege-ozel/interval-timer";
 const RELEASES_API_URL = `https://api.github.com/repos/${REPO}/releases/latest`;
 
 /**
