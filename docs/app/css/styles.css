@@ -184,6 +184,9 @@ body {
 
 .icon-btn {
   position: relative;
+  /* The generic button rule's min-width is for text buttons; icons only
+     need a comfortable touch target. */
+  min-width: 44px;
   background: none;
   border: 1px solid transparent;
   color: var(--ink-muted);
@@ -731,34 +734,11 @@ button:disabled {
 }
 
 /* ── Responsive ──────────────────────────────────────────────── */
-@media (max-width: 440px) {
-  :root {
-    --text-display: clamp(2.25rem, 10vw, 3rem);
-  }
-
-  .gradient-title {
-    font-size: var(--text-xl);
-  }
-
-  .input-group label {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--sp-2);
-  }
-
-  .button-group {
-    gap: var(--sp-2);
-  }
-
-  button {
-    min-width: 70px;
-    padding: var(--sp-2) var(--sp-3);
-    font-size: var(--text-xs);
-  }
-
+@media (max-width: 620px) {
   /* Header: title on the left with the icon buttons on the same row, tabs
-     full width underneath. The wrapper is `display: contents` on desktop,
-     so only phones get this grid; .top-bar dissolves into it here. */
+     full width underneath. The wrapper is `display: contents` on wide
+     windows; below 620px the one-row desktop top bar no longer fits, so it
+     dissolves into this grid instead. */
   .app-header {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -801,8 +781,7 @@ button:disabled {
     font-size: var(--text-sm);
   }
 
-  /* The generic `button` rule above is for the big action buttons —
-     icon buttons must stay compact. */
+  /* Icon buttons stay compact here. */
   .icon-btn {
     min-width: 0;
     padding: 6px;
@@ -812,7 +791,7 @@ button:disabled {
     padding: 6px;
   }
 
-  /* Icon only on phones; the separator spacing is tightened to match. */
+  /* Icon only on narrow windows; the separator spacing is tightened to match. */
   .quit-btn {
     margin-left: var(--sp-1);
     padding-left: var(--sp-2);
@@ -823,11 +802,37 @@ button:disabled {
   }
 }
 
+@media (max-width: 440px) {
+  :root {
+    --text-display: clamp(2.25rem, 10vw, 3rem);
+  }
+
+  .gradient-title {
+    font-size: var(--text-xl);
+  }
+
+  .input-group label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-2);
+  }
+
+  .button-group {
+    gap: var(--sp-2);
+  }
+
+  button {
+    min-width: 70px;
+    padding: var(--sp-2) var(--sp-3);
+    font-size: var(--text-xs);
+  }
+
+}
+
 /* Narrow screens: keep the title and icons on one row. With all five
    icons (the desktop app squeezed to phone width — Quit is only shown
-   there) tighten across the whole phone layout; with fewer icons only
-   below 340px. */
-@media (max-width: 440px) {
+   there) tighten from 500px down; with fewer icons only below 340px. */
+@media (max-width: 500px) {
   body:has(#quitAppBtn:not(.hidden)) {
     padding-left: var(--sp-3);
     padding-right: var(--sp-3);
@@ -850,6 +855,10 @@ button:disabled {
   body {
     padding-left: var(--sp-3);
     padding-right: var(--sp-3);
+  }
+
+  .app-header .icon-btn {
+    padding: 5px;
   }
 
   .app-header .modal-buttons {
