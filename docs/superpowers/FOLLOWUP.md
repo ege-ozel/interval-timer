@@ -48,11 +48,11 @@ and installed on the user's machine. Everything is merged and pushed;
 
 ## Open items
 
-- **Old commit trailers**: commits `88d9b23`, `d845357` and `86c8a7c` on
-  `main` still carry a `Co-Authored-By: Claude` trailer. Removing them means
-  rewriting `main` and force-pushing; the user has not decided yet. Rule
-  from now on: no AI mentions or trailers in commits, README or release
-  notes.
+- **Commit trailers**: on 2026-10-23 `main` was rewritten (force-pushed,
+  v1.1.3 tag moved with it) to drop `Co-Authored-By: Claude` from every
+  commit after `ac24de8`. 79 older commits (back to July) still carry it;
+  the user only asked for the recent ones. Rule from now on: no AI
+  mentions or trailers in commits, README or release notes.
 - **`feature/alarm-upload-folder`**: port the folder picker onto the
   monorepo or delete the branch; the user's call.
 - **Landing footer** says "MIT-style personal project" while package.json
@@ -66,5 +66,4 @@ and installed on the user's machine. Everything is merged and pushed;
 
 ## Likely next steps
 
-- Ask whether to strip the old commit trailers (force-push to `main`).
 - Decide the fate of `feature/alarm-upload-folder`.
