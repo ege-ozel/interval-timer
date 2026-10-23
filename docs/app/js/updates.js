@@ -55,6 +55,9 @@ export function setupUpdateChecker() {
   if (window.electronAPI.isWindowsStoreBuild || isDemoMode() || isPwaMode()) {
     document.querySelector(".update-check-row")?.classList.add("hidden");
     document.getElementById("updateCheckStatus")?.classList.add("hidden");
+    // Updates are the only thing in Settings, so without them the button
+    // would open an empty dialog — hide it instead.
+    document.getElementById("settingsIcon")?.classList.add("hidden");
     return;
   }
 

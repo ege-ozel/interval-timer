@@ -52,18 +52,6 @@ if (languageBtn) {
 
 // ── Settings modal ────────────────────────────────────────────
 document.getElementById("settingsIcon").onclick = () => {
-  const currentTab =
-    document
-      .querySelector(".tab-buttons button.active")
-      ?.getAttribute("data-tab") || "interval";
-
-  const timerSettings = document.getElementById("timerSettings");
-  const intervalSettings = document.getElementById("intervalSettings");
-  if (timerSettings)
-    timerSettings.classList.toggle("hidden", currentTab !== "timer");
-  if (intervalSettings)
-    intervalSettings.classList.toggle("hidden", currentTab !== "interval");
-
   document.getElementById("settingsModal").classList.remove("hidden");
 };
 
@@ -71,31 +59,7 @@ document.getElementById("closeSettingsBtn").onclick = () => {
   document.getElementById("settingsModal").classList.add("hidden");
 };
 
-document.getElementById("saveSettingsBtn").onclick = () => {
-  const timerAlarmLength = parseInt(
-    document.getElementById("timerAlarmLength").value,
-    10,
-  );
-  const workAlarmLength = parseInt(
-    document.getElementById("workAlarmLength").value,
-    10,
-  );
-  const breakAlarmLength = parseInt(
-    document.getElementById("breakAlarmLength").value,
-    10,
-  );
-
-  if (!isNaN(timerAlarmLength))
-    alarmSettings.timerAlarmLength = timerAlarmLength;
-  if (!isNaN(workAlarmLength)) alarmSettings.workAlarmLength = workAlarmLength;
-  if (!isNaN(breakAlarmLength))
-    alarmSettings.breakAlarmLength = breakAlarmLength;
-
-  console.log("Updated alarmSettings:", alarmSettings);
-  document.getElementById("settingsModal").classList.add("hidden");
-};
-
-// ── Alarm folder modal ────────────────────────────────────────
+// ── Alarm modal: sound + length ───────────────────────────────
 document.getElementById("alarmFolderBtn").onclick = () => {
   document.getElementById("alarmFolderModal").classList.remove("hidden");
 };
@@ -103,6 +67,31 @@ document.getElementById("alarmFolderBtn").onclick = () => {
 document.getElementById("closeAlarmFolderBtn").onclick = () => {
   document.getElementById("alarmFolderModal").classList.add("hidden");
 };
+
+// Alarm lengths apply as soon as they change — the modal has no Save step.
+for (const id of ["timerAlarmLength", "workAlarmLength", "breakAlarmLength"]) {
+  const input = document.getElementById(id);
+  const apply = () => {
+    const value = parseInt(input.value, 10);
+    if (!isNaN(value) && value > 0) alarmSettings[id] = value;
+  };
+  input.addEventListener("input", apply);
+  input.addEventListener("change", apply);
+}
+
+// Show only the length fields for the active tab. Watching the class (not
+// the button) also covers the preset form, which opens this modal itself.
+const alarmModalEl = document.getElementById("alarmFolderModal");
+new MutationObserver(() => {
+  if (alarmModalEl.classList.contains("hidden")) return;
+  const currentTab =
+    document.querySelector(".tab-buttons button.active")?.getAttribute("data-tab") ||
+    "interval";
+  document.getElementById("timerSettings").classList.toggle("hidden", currentTab !== "timer");
+  document
+    .getElementById("intervalSettings")
+    .classList.toggle("hidden", currentTab !== "interval");
+}).observe(alarmModalEl, { attributes: true, attributeFilter: ["class"] });
 
 // ── Modal keyboard handling ───────────────────────────────────
 document.addEventListener("keydown", e => {
@@ -126,14 +115,11 @@ if (aotBtn && isPwaMode()) {
   aotBtn.classList.add("hidden");
 } else if (aotBtn) {
   const refreshAotAriaLabel = () => {
-    aotBtn.setAttribute(
-      "aria-label",
-      t(
-        alwaysOnTop
-          ? "topbar.pinBtn.ariaLabel.unpin"
-          : "topbar.pinBtn.ariaLabel.pin",
-      ),
+    const label = t(
+      alwaysOnTop ? "topbar.pinBtn.ariaLabel.unpin" : "topbar.pinBtn.ariaLabel.pin",
     );
+    aotBtn.setAttribute("aria-label", label);
+    aotBtn.setAttribute("title", label);
   };
 
   aotBtn.addEventListener("click", () => {
