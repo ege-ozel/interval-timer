@@ -189,7 +189,12 @@ function setAllowedLocalAudioPath(filePath) {
 
 export function registerLocalServerIpc() {
   ipcMain.handle("get-file-path", async () => {
+    // Since Electron 43 the dialog opens in Downloads unless told otherwise,
+    // so start in the folder of the last chosen alarm file when it still exists.
+    const lastPath = store?.get("allowedLocalAudioPath");
+    const lastDir = lastPath ? path.dirname(lastPath) : null;
     const result = await dialog.showOpenDialog({
+      ...(lastDir && fs.existsSync(lastDir) ? { defaultPath: lastDir } : {}),
       properties: ["openFile"],
       filters: [{ name: "Audio Files", extensions: ["mp3", "wav", "ogg"] }],
     });
